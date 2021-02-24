@@ -39,5 +39,27 @@ namespace SalesWebMvc.Controllers
             // return RedirectToAction("Index"); Pode ser escrito de outra forma, como mostra abaixo
             return RedirectToAction(nameof(Index)); // Redireciona para o Index
         }
+
+        public IActionResult Delete(int? id) 
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var obj = _sellerService.FindById(id.Value);
+            if (obj == null) 
+            {
+                return NotFound();
+            }
+            return View(obj);
+        }
+
+        [HttpPost] // Indicando que é uma ação de POST
+        [ValidateAntiForgeryToken] // Para prevenir que a minha aplicação sofra ataque CSCRS: Prevenir que alguém aproveite minha autenticaçõ e envie dados maliciosos 
+        public IActionResult Delete(int id)
+        {
+            _sellerService.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
