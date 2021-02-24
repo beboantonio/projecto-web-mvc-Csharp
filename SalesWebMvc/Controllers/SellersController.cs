@@ -37,6 +37,16 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken] // Para prevenir que a minha aplicação sofra ataque CSCRS: Prevenir que alguém aproveite minha autenticaçõ e envie dados maliciosos 
         public IActionResult Create(Seller seller)
         {
+            if (!ModelState.IsValid) // Se o formatura não pegar a validação, os dados serão retornado para a View de modo a serem preenchidos com base a formatação
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel
+                {
+                    Seller = seller,
+                    Departments = departments
+                };
+                return View(viewModel);
+            }
             _sellerService.Insert(seller);
             // return RedirectToAction("Index"); Pode ser escrito de outra forma, como mostra abaixo
             return RedirectToAction(nameof(Index)); // Redireciona para o Index
@@ -93,6 +103,17 @@ namespace SalesWebMvc.Controllers
         [ValidateAntiForgeryToken] // Para prevenir que a minha aplicação sofra ataque CSCRS: Prevenir que alguém aproveite minha autenticaçõ e envie dados maliciosos 
         public IActionResult Edit(int id, Seller seller) 
         {
+            if (!ModelState.IsValid) // Se o formatura não pegar a validação, os dados serão retornado para a View de modo a serem preenchidos com base a formatação
+            {
+                var departments = _departmentService.FindAll();
+                var viewModel = new SellerFormViewModel
+                {
+                    Seller = seller,
+                    Departments = departments
+                };
+                return View(viewModel);
+            }
+
             if (id != seller.Id) 
             {
                 return RedirectToAction(nameof(Error), new { message = "Id mismatch" });
