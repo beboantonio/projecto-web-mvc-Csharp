@@ -11,6 +11,7 @@ namespace SalesWebMvc.Models
         public DateTime BirthDate { get; set; }
         public long BaseSlary { get; set; }
 
+        public int DepartmentId { get; set; } // Obriga ao framework garantir que esse campo precisa de um valor que depende do "Department" e não deve ser NULL
         // Associações
         public Department Department { get; set; }
         public ICollection<SalesRecord> Sales { get; set; } = new List<SalesRecord>();
