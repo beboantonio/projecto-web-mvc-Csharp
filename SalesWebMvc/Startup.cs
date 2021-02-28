@@ -38,12 +38,15 @@ namespace SalesWebMvc
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<SalesWebMvcContext>(options =>
-                    options.UseMySql(Configuration.GetConnectionString("SalesWebMvcContext"), builder =>
-                                      builder.MigrationsAssembly("SalesWebMvc")));
+            services.AddDbContext<SalesWebMvcContext>( options =>
+                options.UseSqlServer(Configuration.GetConnectionString("SalesWebMVC"))
+            );
+
+            //services.AddDbContext<SalesWebMvcContext>(options =>
+            //        options.UseMySql(Configuration.GetConnectionString("SalesWebMvcContext"), builder =>
+            //                          builder.MigrationsAssembly("SalesWebMvc")));
 
             services.AddScoped<SeedingService>();
             services.AddScoped<SellerService>();
